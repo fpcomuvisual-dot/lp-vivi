@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:wght@200;400;500&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preload" as="image" href="001 (1).jpg">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="textured-bg">
@@ -45,7 +46,7 @@
             
             <div class="hero-image fade-in stagger-5">
                 <div class="image-frame">
-                    <img src="001 (1).png" alt="Vivi Cavalcante Acessórios">
+                    <img src="001 (1).jpg" alt="Vivi Cavalcante Acessórios" fetchpriority="high" decoding="sync">
                 </div>
             </div>
         </section>
@@ -92,12 +93,12 @@
                 </figure>
                 <figure class="gallery-item fade-in stagger-3">
                     <div class="img-zoom">
-                        <img src="001 (3).png" alt="Peça 3" loading="lazy">
+                        <img src="001 (3).jpg" alt="Peça 3" loading="lazy" decoding="async">
                     </div>
                 </figure>
                 <figure class="gallery-item fade-in stagger-4 offset-y">
                     <div class="img-zoom">
-                        <img src="001 (4).png" alt="Peça 4" loading="lazy">
+                        <img src="001 (4).jpg" alt="Peça 4" loading="lazy" decoding="async">
                     </div>
                 </figure>
             </div>
