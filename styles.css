@@ -121,11 +121,15 @@ h1, h2, h3, .logo, .logo-large {
   font-family: var(--font-accent);
   font-weight: normal;
   font-size: 1.05em; /* Reduced slightly */
-  color: var(--accent-gold);
+  color: var(--text-primary); /* White for 'da Prata' */
   text-transform: none;
   letter-spacing: normal;
   display: inline-block;
   transform: translateY(12px); /* Pushed slightly downward */
+}
+
+.text-gold {
+  color: var(--accent-gold);
 }
 
 /* ==================================================
