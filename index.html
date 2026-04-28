@@ -16,10 +16,21 @@
 </head>
 <body>
 
+    <!-- ATENÇÃO: ESTA SEÇÃO DEPENDE DE OPERAÇÃO REAL DE LOTE SEMANAL.
+    NÃO PUBLICAR SE A LOJA NÃO ESTIVER OPERANDO ASSIM. RISCO LEGAL (CDC art. 37). -->
+
+    <!-- ========== BARRA DE URGÊNCIA (sticky) ========== -->
+    <div class="urgency-bar" id="urgency-bar" role="status" aria-live="polite">
+        <span id="urgency-text">⚡ LOTE DA SEMANA: restam <strong id="vagas-restantes">11</strong> peças com até 80% OFF — só no grupo</span>
+    </div>
+
     <!-- ========== HEADER ========== -->
     <header class="header">
         <span class="brand-logo">Vivi Cavalcante</span>
     </header>
+
+    <!-- Toast container for WhatsApp-style notifications -->
+    <div class="toast-container" id="toast-container" aria-live="polite" aria-relevant="additions"></div>
 
     <main>
 
@@ -30,7 +41,7 @@
                     Peças em prata 925 com até 80% de desconto — só no grupo fechado da Vivi
                 </h1>
                 <p class="hero-sub fade-in stagger-1">
-                    Parcelado em 10x em todos os cartões. Entrega para todo o Brasil.
+                    Lote desta semana liberado. Parcelado em 10x em todos os cartões.
                 </p>
                 <a
                     href="https://chat.whatsapp.com/JPAYRAbg1XzCDvVkpaARz7?mode=gi_t"
@@ -42,6 +53,7 @@
                 >
                     QUERO ENTRAR E VER OS DESCONTOS
                 </a>
+                <p class="microcopy-urgency fade-in stagger-3">Restam poucas peças deste lote</p>
                 <p class="microcopy fade-in stagger-3">Grátis · Entrada imediata · Você sai quando quiser</p>
             </div>
 

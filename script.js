@@ -68,7 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Testimonial Carousel
     initCarousel();
+
+    // 6. Urgency bar + Toast notifications
+    initUrgencySystem();
+
+    // 7. Sticky header offset (below urgency bar)
+    adjustHeaderOffset();
+    window.addEventListener('resize', adjustHeaderOffset);
 });
+
+function adjustHeaderOffset() {
+    const bar = document.getElementById('urgency-bar');
+    const header = document.querySelector('.header');
+    if (bar && header) {
+        header.style.top = bar.offsetHeight + 'px';
+    }
+}
+
 
 function initCarousel() {
     const track = document.getElementById('carousel-track');
@@ -186,4 +202,129 @@ function initCarousel() {
     buildDots();
     goTo(0);
     startAutoPlay();
+}
+
+/* ==================================================
+   URGENCY SYSTEM — Counter + WhatsApp Toast Notifications
+   
+   NOMES DO POOL SÃO TEMPLATES.
+   [SUBSTITUIR POR NOMES REAIS COM CONSENTIMENTO]
+================================================== */
+
+function initUrgencySystem() {
+    const bar = document.getElementById('urgency-bar');
+    const textEl = document.getElementById('urgency-text');
+    const counterEl = document.getElementById('vagas-restantes');
+    const container = document.getElementById('toast-container');
+
+    if (!bar || !textEl || !counterEl || !container) return;
+
+    let count = 11;
+    let lastName = '';
+
+    // Name pool — [SUBSTITUIR POR NOMES REAIS COM CONSENTIMENTO]
+    const namePool = [
+        'Camila R.', 'Fernanda L.', 'Juliana A.', 'Roberta T.',
+        'Aline P.', 'Tatiane O.', 'Bianca C.', 'Renata F.',
+        'Letícia B.', 'Daniela K.', 'Carolina M.', 'Vanessa H.',
+        'Priscila G.', 'Mariana D.', 'Adriana V.'
+    ];
+
+    // Initial 3 fixed notifications
+    const initialSequence = [
+        { name: 'Sueli L.', delayMs: 12000 },
+        { name: 'Marina S.', delayMs: 38000 },
+        { name: 'Patrícia M.', delayMs: 85000 }
+    ];
+
+    function updateBar() {
+        if (count <= 0) {
+            bar.classList.remove('urgency-critical');
+            bar.classList.add('urgency-esgotado');
+            textEl.textContent = 'Lote desta semana esgotado. Próximo lote em breve — entre no grupo para ser avisada.';
+        } else if (count <= 3) {
+            bar.classList.add('urgency-critical');
+            textEl.innerHTML = '🔥 ÚLTIMAS <strong>' + count + '</strong> peças do lote da semana — encerrando hoje';
+        } else {
+            textEl.innerHTML = '⚡ LOTE DA SEMANA: restam <strong>' + count + '</strong> peças com até 80% OFF — só no grupo';
+        }
+        counterEl.textContent = count;
+    }
+
+    function getRandomName() {
+        let available = namePool.filter(n => n !== lastName);
+        const picked = available[Math.floor(Math.random() * available.length)];
+        lastName = picked;
+        return picked;
+    }
+
+    function triggerEntry(name) {
+        if (count <= 0) return;
+        count--;
+        updateBar();
+        adjustHeaderOffset();
+        showToast(container, name);
+    }
+
+    // Schedule initial 3
+    initialSequence.forEach(entry => {
+        setTimeout(() => triggerEntry(entry.name), entry.delayMs);
+    });
+
+    // Random loop starting at ~2 minutes
+    function scheduleNext() {
+        if (count <= 1) {
+            // Hold at 1 for 90 seconds before final decrement
+            if (count === 1) {
+                setTimeout(() => {
+                    triggerEntry(getRandomName());
+                }, 90000);
+            }
+            return;
+        }
+        const delay = 45000 + Math.floor(Math.random() * 45000); // 45-90s
+        setTimeout(() => {
+            triggerEntry(getRandomName());
+            scheduleNext();
+        }, delay);
+    }
+
+    // Start random loop after initial 3 are done (~2 min mark)
+    setTimeout(scheduleNext, 120000);
+}
+
+function showToast(container, name) {
+    // Remove any existing toast
+    const old = container.querySelector('.toast');
+    if (old) {
+        old.classList.add('toast-exit');
+        setTimeout(() => old.remove(), 300);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.setAttribute('role', 'alert');
+    toast.innerHTML = `
+        <div class="toast-wa-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.5.5 0 00.612.638l4.694-1.347A11.94 11.94 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-2.239 0-4.326-.726-6.02-1.956l-.42-.316-2.791.801.832-2.724-.344-.443A9.963 9.963 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+            </svg>
+        </div>
+        <div class="toast-body">
+            <div class="toast-header">WhatsApp · Grupo Vivi Cavalcante</div>
+            <div class="toast-message">${name} acabou de entrar no grupo</div>
+            <div class="toast-time">agora</div>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    // Auto-remove after 4 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.classList.add('toast-exit');
+            setTimeout(() => toast.remove(), 300);
+        }
+    }, 4000);
 }
