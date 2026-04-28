@@ -1,62 +1,68 @@
 /**
- * VIVI CAVALCANTE - Distinctive Frontend Scripts
- * Orchestrated Motion & Interactivity
+ * VIVI CAVALCANTE — Landing Page Scripts
+ * Scroll reveal + Year + CTA tracking
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initialize Lucide Icons
-    lucide.createIcons();
 
-    // 2. Orchestrated Page Load (Hero Section & Nav)
-    // We trigger the hero elements immediately upon load to guarantee the choreography.
-    const initialElements = document.querySelectorAll('.hero .fade-in, .nav.fade-in');
-    
-    // Slight delay to ensure CSS is ready and give a smooth start
+    // 1. Orchestrated Page Load — Hero elements
+    const heroElements = document.querySelectorAll('.hero .fade-in, .header');
     setTimeout(() => {
-        initialElements.forEach(el => {
-            el.classList.add('is-visible');
-        });
-    }, 100);
+        heroElements.forEach(el => el.classList.add('is-visible'));
+    }, 80);
 
-    // 3. Scroll Reveal Choreography (Intersection Observer)
-    // Elements outside the hero section will fade in as they scroll into view.
+    // 2. Scroll Reveal (IntersectionObserver)
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -100px 0px', // Trigger slightly before the bottom
-        threshold: 0.1 // Trigger when 10% is visible
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
     };
 
-    const sectionObserver = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Find all animated elements within the intersecting section
-                const animatedChildren = entry.target.querySelectorAll('.fade-in');
-                
-                // If the section itself is an animated element
+                const children = entry.target.querySelectorAll('.fade-in');
                 if (entry.target.classList.contains('fade-in')) {
                     entry.target.classList.add('is-visible');
                 }
-                
-                // Trigger children
-                animatedChildren.forEach(child => {
-                    child.classList.add('is-visible');
-                });
-                
-                // Unobserve to only animate once
-                observer.unobserve(entry.target);
+                children.forEach(child => child.classList.add('is-visible'));
+                obs.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe all sections configured for scroll animation
-    const scrollSections = document.querySelectorAll('.animate-on-scroll');
-    scrollSections.forEach(section => {
-        sectionObserver.observe(section);
+    document.querySelectorAll('.animate-on-scroll').forEach(section => {
+        observer.observe(section);
     });
 
-    // 4. Update Footer Year
-    const yearElement = document.getElementById('year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
+    // 3. Footer Year
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // 4. CTA Click Tracking (data-event)
+    // Fires a custom event for each CTA click so Meta Pixel / GA4
+    // can be wired up later without touching this code.
+    document.querySelectorAll('[data-event]').forEach(el => {
+        el.addEventListener('click', function () {
+            const eventName = this.getAttribute('data-event');
+
+            // dataLayer (GTM / GA4)
+            if (typeof window.dataLayer !== 'undefined') {
+                window.dataLayer.push({
+                    event: eventName,
+                    eventCategory: 'WhatsApp CTA',
+                    eventAction: 'click',
+                    eventLabel: this.id || eventName
+                });
+            }
+
+            // Meta Pixel
+            if (typeof window.fbq !== 'undefined') {
+                window.fbq('trackCustom', eventName);
+            }
+
+            // Console log for debugging
+            console.log('[CTA Track]', eventName);
+        });
+    });
 });
