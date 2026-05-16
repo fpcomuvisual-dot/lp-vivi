@@ -96,11 +96,16 @@ a {
   background: var(--bg-dark);
   color: #FDFBF7;
   text-align: center;
-  padding: 0.7rem 1rem;
-  font-size: 0.82rem;
-  font-weight: 500;
+  padding: 12px 1rem;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.01em;
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background 0.6s ease, color 0.3s ease;
 }
 
@@ -110,7 +115,7 @@ a {
 }
 
 .urgency-bar.urgency-critical {
-  background: #B22222;
+  background: #C0392B;
 }
 
 .urgency-bar.urgency-esgotado {
@@ -149,7 +154,7 @@ a {
 /* ---------- TOAST NOTIFICATIONS ---------- */
 .toast-container {
   position: fixed;
-  bottom: 1.25rem;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   width: 85%;
@@ -395,7 +400,7 @@ a {
 
 .carousel-track {
   display: flex;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.4s ease-out;
   will-change: transform;
 }
 
@@ -904,6 +909,10 @@ a {
   .testimonial-card {
     flex: 0 0 50%;
   }
+
+  .urgency-bar {
+    font-size: 0.9375rem; /* 15px */
+  }
 }
 
 @media (min-width: 960px) {
@@ -958,5 +967,12 @@ a {
   /* Carousel: 3 cards visible on desktop */
   .testimonial-card {
     flex: 0 0 33.333%;
+  }
+
+  /* Toast: bottom-left on desktop per spec */
+  .toast-container {
+    left: 20px;
+    transform: none;
+    width: 320px;
   }
 }

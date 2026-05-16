@@ -244,11 +244,10 @@ function initUrgencySystem() {
             textEl.textContent = 'Lote desta semana esgotado. Próximo lote em breve — entre no grupo para ser avisada.';
         } else if (count <= 3) {
             bar.classList.add('urgency-critical');
-            textEl.innerHTML = '🔥 ÚLTIMAS <strong>' + count + '</strong> peças do lote da semana — encerrando hoje';
+            textEl.innerHTML = '🔥 ÚLTIMAS <strong id="vagas-restantes">' + count + '</strong> peças do lote — encerrando hoje';
         } else {
-            textEl.innerHTML = '⚡ LOTE DA SEMANA: restam <strong>' + count + '</strong> peças com até 80% OFF — só no grupo';
+            textEl.innerHTML = '⚡ LOTE DA SEMANA: restam <strong id="vagas-restantes">' + count + '</strong> peças com até 80% OFF — só no grupo';
         }
-        counterEl.textContent = count;
     }
 
     function getRandomName() {
