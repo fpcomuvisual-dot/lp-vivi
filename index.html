@@ -2,19 +2,79 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Semijoias com até 80% OFF — Grupo Promocional | Vivi Cavalcante</title>
     <meta name="description" content="Entre no grupo promocional da Vivi Cavalcante e receba ofertas exclusivas de semijoias com até 80% de desconto. Parcelamento em 10x. Entrega para todo o Brasil.">
+
+    <!-- PWA / Theme -->
+    <meta name="theme-color" content="#B8860B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Semijoias com até 80% OFF — Grupo Vivi Cavalcante">
+    <meta property="og:description" content="Entre no grupo e receba ofertas exclusivas. Parcelado em 10x. Entrega para todo o Brasil.">
+    <meta property="og:image" content="https://fpcomuvisual-dot.github.io/lp-vivi/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://fpcomuvisual-dot.github.io/lp-vivi/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
     <!-- Typography: Inter for body, DM Serif Display for headlines -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="preload" as="image" href="NOVAS FOTOS/xxx (7).JPEG">
-    <link rel="stylesheet" href="styles.css">
+    <!-- Preload hero image (WebP) -->
+    <link rel="preload" as="image" href="img/vivi-hero.webp" type="image/webp">
+
+    <!-- Critical CSS (first fold) inlined for <1.5s first paint -->
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg:#FDFBF7;--bg-alt:#F5F1EA;--bg-dark:#1A1611;--text:#1A1611;--text-muted:#6B6560;--text-light:#9E978E;--accent:#B8860B;--cta-bg:#1A1611;--cta-text:#FDFBF7;--cta-hover:#2E271E;--border:rgba(26,22,17,0.08);--shadow-md:0 4px 14px rgba(26,22,17,0.08);--radius:12px;--radius-lg:16px;--font-display:'DM Serif Display',Georgia,serif;--font-body:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;--ease:cubic-bezier(0.22,1,0.36,1)}
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+        body{font-family:var(--font-body);font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+        img{display:block;max-width:100%;height:auto}
+        a{text-decoration:none;color:inherit}
+        .webview-banner{position:fixed;top:0;left:0;right:0;z-index:200;background:#FFD700;color:#1A1611;padding:10px 44px 10px 16px;font-size:.875rem;font-weight:600;text-align:center;min-height:50px;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+        .webview-chrome-btn{display:inline-block;background:#1A1611;color:#fff;padding:6px 14px;border-radius:6px;font-size:.8rem;font-weight:700;white-space:nowrap}
+        .webview-close{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;color:#1A1611;padding:4px 8px}
+        .urgency-bar{position:sticky;top:0;z-index:110;background:var(--bg-dark);color:#FDFBF7;text-align:center;padding:12px 1rem;font-size:.875rem;font-weight:600;line-height:1.4;width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;transition:background .6s ease}
+        .urgency-bar strong{font-weight:700;font-size:1rem}
+        .header{position:sticky;top:0;z-index:100;background:rgba(253,251,247,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.85rem 1.25rem;text-align:center}
+        .brand-logo{font-family:var(--font-display);font-size:1.1rem;letter-spacing:.04em;color:var(--text)}
+        .hero{display:flex;flex-direction:column;padding:1.75rem 1.25rem 2rem;gap:1.5rem}
+        .hero-content{order:1}
+        .hero-headline{font-family:var(--font-display);font-size:1.65rem;line-height:1.25;color:var(--text);margin-bottom:.75rem}
+        .hero-sub{font-size:.95rem;color:var(--text-muted);margin-bottom:1.25rem;line-height:1.5}
+        .hero-image{order:2;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-md)}
+        .hero-image img{width:100%;height:100%;object-fit:cover}
+        .cta-btn{display:block;width:90%;max-width:440px;margin:0 auto;padding:1rem 1.5rem;min-height:56px;background:var(--cta-bg);color:var(--cta-text);font-family:var(--font-body);font-size:.95rem;font-weight:700;letter-spacing:.04em;text-align:center;border:none;border-radius:var(--radius);cursor:pointer;box-shadow:var(--shadow-md);position:relative;overflow:hidden;transition:background .3s var(--ease),transform .2s var(--ease)}
+        .microcopy{text-align:center;font-size:.78rem;color:var(--text-light);margin-top:.6rem}
+        .microcopy-urgency{text-align:center;font-size:.82rem;font-weight:600;color:#B22222;margin-top:.5rem}
+        .fade-in{opacity:0;transform:translateY(20px)}
+        .fade-in.is-visible{animation:fadeUp .7s var(--ease) forwards}
+        .stagger-1{animation-delay:.08s}.stagger-2{animation-delay:.16s}.stagger-3{animation-delay:.24s}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    </style>
+
+    <!-- Full stylesheet deferred (non-critical CSS loads after first paint) -->
+    <link rel="stylesheet" href="styles.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
 </head>
 <body>
+
+    <!-- ========== BANNER WEBVIEW (Instagram/Facebook/TikTok) ========== -->
+    <div class="webview-banner" id="webview-banner" role="alert" style="display:none">
+        <p>👉 Para entrar no grupo, toque nos <strong>3 pontinhos (⋮)</strong> acima e escolha <strong>"Abrir no navegador"</strong></p>
+        <a href="intent://fpcomuvisual-dot.github.io/lp-vivi/#Intent;scheme=https;package=com.android.chrome;end"
+           class="webview-chrome-btn" id="webview-chrome-btn" style="display:none">ABRIR NO CHROME</a>
+        <button class="webview-close" id="webview-close" aria-label="Fechar aviso">✕</button>
+    </div>
 
     <!-- ATENÇÃO: ESTA SEÇÃO DEPENDE DE OPERAÇÃO REAL DE LOTE SEMANAL.
     NÃO PUBLICAR SE A LOJA NÃO ESTIVER OPERANDO ASSIM. RISCO LEGAL (CDC art. 37). -->
@@ -58,14 +118,17 @@
             </div>
 
             <div class="hero-image fade-in stagger-2">
-                <img
-                    src="NOVAS FOTOS/xxx (7).JPEG"
-                    alt="Vivi Cavalcante usando semijoia"
-                    fetchpriority="high"
-                    decoding="sync"
-                    width="600"
-                    height="750"
-                >
+                <picture>
+                    <source srcset="img/vivi-hero.webp" type="image/webp">
+                    <img
+                        src="img/vivi-hero.jpg"
+                        alt="Vivi Cavalcante usando semijoia"
+                        fetchpriority="high"
+                        decoding="sync"
+                        width="600"
+                        height="750"
+                    >
+                </picture>
             </div>
         </section>
 
@@ -282,7 +345,10 @@
                     data-event="click_whatsapp_cta_galeria_1"
                 >
                     <div class="gallery-img-wrap">
-                        <img src="NOVAS FOTOS/xxx (1).jpeg" alt="Colar com flores banho de ouro" loading="lazy" width="400" height="500">
+                        <picture>
+                            <source srcset="img/galeria-colar.webp" type="image/webp">
+                            <img src="img/galeria-colar.jpg" alt="Colar com flores banho de ouro" loading="lazy" decoding="async" width="400" height="500">
+                        </picture>
                     </div>
                     <p class="gallery-caption">Colar com flores — banho de ouro 10 camadas, esgotou em 3 horas no grupo</p>
                 </a>
@@ -294,7 +360,10 @@
                     data-event="click_whatsapp_cta_galeria_2"
                 >
                     <div class="gallery-img-wrap">
-                        <img src="NOVAS FOTOS/xxx (2).jpeg" alt="Brincos quadrados banho de ouro" loading="lazy" width="400" height="500">
+                        <picture>
+                            <source srcset="img/galeria-brincos.webp" type="image/webp">
+                            <img src="img/galeria-brincos.jpg" alt="Brincos quadrados banho de ouro" loading="lazy" decoding="async" width="400" height="500">
+                        </picture>
                     </div>
                     <p class="gallery-caption">Brincos quadrados cravejados — últimas unidades no estoque</p>
                 </a>
@@ -306,7 +375,10 @@
                     data-event="click_whatsapp_cta_galeria_3"
                 >
                     <div class="gallery-img-wrap">
-                        <img src="NOVAS FOTOS/xxx (8).jpeg" alt="Colares com banho de ródio" loading="lazy" width="400" height="500">
+                        <picture>
+                            <source srcset="img/galeria-colares.webp" type="image/webp">
+                            <img src="img/galeria-colares.jpg" alt="Colares com banho de ródio" loading="lazy" decoding="async" width="400" height="500">
+                        </picture>
                     </div>
                     <p class="gallery-caption">Colares riviera — voltaram por pedido das clientes do grupo</p>
                 </a>
@@ -365,6 +437,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 </html>

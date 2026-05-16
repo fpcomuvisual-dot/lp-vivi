@@ -88,6 +88,73 @@ a {
   margin-bottom: 1rem;
 }
 
+/* ---------- WEBVIEW BANNER (Instagram/FB/TikTok) ---------- */
+.webview-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background: #FFD700;
+  color: #1A1611;
+  padding: 10px 44px 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.webview-banner p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.webview-chrome-btn {
+  display: inline-block;
+  background: #1A1611;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.webview-chrome-btn:hover {
+  background: #2E271E;
+}
+
+.webview-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #1A1611;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+/* When webview banner is visible, push urgency bar down */
+body.has-webview-banner .urgency-bar {
+  top: 50px;
+}
+
+body.has-webview-banner .header {
+  top: 94px; /* 50px banner + 44px urgency bar */
+}
+
 /* ---------- URGENCY BAR ---------- */
 .urgency-bar {
   position: sticky;

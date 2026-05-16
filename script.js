@@ -1,50 +1,104 @@
 /**
  * VIVI CAVALCANTE — Landing Page Scripts
- * Scroll reveal + Year + CTA tracking
+ * Webview detection + Scroll reveal + Year + CTA tracking
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+/* ==================================================
+   WEBVIEW DETECTION (Instagram, Facebook, TikTok, Messenger)
+================================================== */
+
+function isInAppWebview() {
+    var ua = navigator.userAgent || '';
+    return /Instagram|FBAN|FBAV|TikTok|musical_ly|MessengerForiOS/i.test(ua);
+}
+
+function isAndroid() {
+    return /Android/i.test(navigator.userAgent || '');
+}
+
+function showWebviewBanner() {
+    var banner = document.getElementById('webview-banner');
+    if (!banner) return;
+    banner.style.display = 'flex';
+    document.body.classList.add('has-webview-banner');
+
+    // Show Chrome button only on Android
+    var chromeBtn = document.getElementById('webview-chrome-btn');
+    if (chromeBtn && isAndroid()) {
+        chromeBtn.style.display = 'inline-block';
+    }
+
+    adjustHeaderOffset();
+}
+
+function hideWebviewBanner() {
+    var banner = document.getElementById('webview-banner');
+    if (!banner) return;
+    banner.style.display = 'none';
+    document.body.classList.remove('has-webview-banner');
+    adjustHeaderOffset();
+}
+
+function initWebviewBanner() {
+    if (!isInAppWebview()) return;
+
+    showWebviewBanner();
+
+    // Close button — hides banner but re-shows on CTA click
+    var closeBtn = document.getElementById('webview-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', function () {
+            hideWebviewBanner();
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // 0. Webview detection + banner
+    initWebviewBanner();
 
     // 1. Orchestrated Page Load — Hero elements
-    const heroElements = document.querySelectorAll('.hero .fade-in, .header');
-    setTimeout(() => {
-        heroElements.forEach(el => el.classList.add('is-visible'));
+    var heroElements = document.querySelectorAll('.hero .fade-in, .header');
+    setTimeout(function () {
+        heroElements.forEach(function (el) { el.classList.add('is-visible'); });
     }, 80);
 
     // 2. Scroll Reveal (IntersectionObserver)
-    const observerOptions = {
+    var observerOptions = {
         root: null,
         rootMargin: '0px 0px -60px 0px',
         threshold: 0.1
     };
 
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
+    var observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
             if (entry.isIntersecting) {
-                const children = entry.target.querySelectorAll('.fade-in');
+                var children = entry.target.querySelectorAll('.fade-in');
                 if (entry.target.classList.contains('fade-in')) {
                     entry.target.classList.add('is-visible');
                 }
-                children.forEach(child => child.classList.add('is-visible'));
+                children.forEach(function (child) { child.classList.add('is-visible'); });
                 obs.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('.animate-on-scroll').forEach(section => {
+    document.querySelectorAll('.animate-on-scroll').forEach(function (section) {
         observer.observe(section);
     });
 
     // 3. Footer Year
-    const yearEl = document.getElementById('year');
+    var yearEl = document.getElementById('year');
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     // 4. CTA Click Tracking (data-event)
     // Fires a custom event for each CTA click so Meta Pixel / GA4
     // can be wired up later without touching this code.
-    document.querySelectorAll('[data-event]').forEach(el => {
+    // Also re-shows webview banner if user is still in webview.
+    document.querySelectorAll('[data-event]').forEach(function (el) {
         el.addEventListener('click', function () {
-            const eventName = this.getAttribute('data-event');
+            var eventName = this.getAttribute('data-event');
 
             // dataLayer (GTM / GA4)
             if (typeof window.dataLayer !== 'undefined') {
@@ -59,6 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Meta Pixel
             if (typeof window.fbq !== 'undefined') {
                 window.fbq('trackCustom', eventName);
+            }
+
+            // Re-show webview banner if still in webview
+            if (isInAppWebview()) {
+                showWebviewBanner();
             }
 
             // Console log for debugging
@@ -78,10 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function adjustHeaderOffset() {
-    const bar = document.getElementById('urgency-bar');
-    const header = document.querySelector('.header');
+    var bar = document.getElementById('urgency-bar');
+    var header = document.querySelector('.header');
+    var banner = document.getElementById('webview-banner');
     if (bar && header) {
-        header.style.top = bar.offsetHeight + 'px';
+        var bannerHeight = (banner && banner.style.display !== 'none') ? banner.offsetHeight : 0;
+        bar.style.top = bannerHeight + 'px';
+        header.style.top = (bannerHeight + bar.offsetHeight) + 'px';
     }
 }
 
